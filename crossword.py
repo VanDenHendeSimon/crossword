@@ -79,6 +79,11 @@ class CrossWordPuzzle(QtWidgets.QMainWindow):
             'share',
         ]
 
+        # # invert 40% of the words (maybe too difficult)
+        # for index, word in enumerate(self.words):
+        #     if random.uniform(0, 1) < 0.4:
+        #         self.words[index] = word[::-1]
+
         self.draw_words()
         self.fill_grid()
 
@@ -212,24 +217,14 @@ class CrossWordPuzzle(QtWidgets.QMainWindow):
     def diagonal_word(self, word):
         coord_dict = {}
 
-        # If direction != 0, go from right to left
-        direction = random.randrange(0, 2)
-
-        if direction == 0:
-            first_index_row = random.randrange(0, self.grid_size - len(word))
-            first_index_col = random.randrange(0, self.grid_size - len(word))
-        else:
-            first_index_row = random.randrange(0, self.grid_size - len(word))
-            first_index_col = random.randrange(len(word), self.grid_size)
+        first_index_row = random.randrange(0, self.grid_size - len(word))
+        first_index_col = random.randrange(0, self.grid_size - len(word))
 
         coord_dict[(first_index_row, first_index_col)] = word[0]
 
         for index, char in enumerate(word):
             if index > 0:
-                if direction == 0:
-                    coord_dict[(first_index_row + index, first_index_col + index)] = char
-                else:
-                    coord_dict[(first_index_row + index, first_index_col - index)] = char
+                coord_dict[(first_index_row + index, first_index_col + index)] = char
 
         return coord_dict
 
